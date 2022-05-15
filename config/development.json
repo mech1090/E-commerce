@@ -1,3 +1,6 @@
 {
-    "port" :3100
+    "port" :3100,
+    "database":{
+        "uri":"mongodb://localhost:27017"
+    }
 }
