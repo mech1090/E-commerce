@@ -1,16 +1,31 @@
 const productModel = require('../models/Product.model')
+const {validateProduct} = require('../validator/product.validator')
+const serviceProduct = require('../services/product.service')
 
 const findAll = async(req,res)=>{
     productList = await productModel.find({})
     res.send(productList)
 }
-const findOne = (req,res)=>{}
+const findOne = async (req,res)=>{
+    const {id} = req.params
+    try{
+        const product = await productModel.findById(id)
+        return res.send(product)
+    }catch(error){
+        res.status(404).send(`product with id ${id} not found `)
+    }
+
+}
 
 const createOne = async(req,res)=>{
     const{name,specs,price,inStock} = req.body
-  //  const newfield = {name,specs,price,inStock}
-    const newProduct = productModel({name,specs,price,inStock})
-    await newProduct.save()
+    const fields = {name,specs,price,inStock}
+    const {error,value} = validateProduct(fields)
+    if(error){
+        res.status(400).send(error.details[0].message)
+    }
+    const newProduct = await serviceProduct.create(value)
+    console.log(newProduct)
     res.send(newProduct)
 
 }
@@ -54,3 +69,17 @@ module.exports = {
     deleteOne
 }
 
+/*
+const createOne = async(req,res)=>{
+    const{name,specs,price,inStock} = req.body
+    const fields = {name,specs,price,inStock}
+    const {error,value} = validateProduct(fields)
+    if(error){
+        res.status(400).send(error.details[0].message)
+    }
+    const newProduct = productModel(value)
+    await newProduct.save()
+    res.send(newProduct)
+
+}
+*/
