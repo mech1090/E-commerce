@@ -16,23 +16,22 @@ const createOne = async(req,res)=>{
 }
 
 const update= async(req,res)=>{
-    const {id} = req.params
-    const {price} = req.body
-    const {fieldS} = {price}
-    
-    try{
-        const existingProduct = await productModel.findById(id)
-        if(existingProduct){
-            console.log(existingProduct)
-            console.log(fieldS)
-            console.log(price)
-            await productModel.updateOne({_id:id},fieldS)
-        }
-        return res.send('updated')
-    } catch(error){
-        return res.status(404).send(`can not find ${id}`)
-
+    const{id} = req.params
+    const{price} = req.body
+    const{fields} = {price}
+try{
+    const existingProduct = await productModel.findById(id)
+    if(existingProduct){
+        console.log('IN UPDATE AREA')
+        await productModel.updateOne({_id:id},{price})
     }
+    return res.send(price)
+}catch(error){
+    console.log(error.message)
+   // res.status(404).send(`product with id ${id} not found`)
+    res.sendstatus(404)
+}
+
 }
 
 
