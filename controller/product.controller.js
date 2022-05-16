@@ -17,25 +17,34 @@ const createOne = async(req,res)=>{
 
 const update= async(req,res)=>{
     const{id} = req.params
-    const{price} = req.body
-    const{fields} = {price}
+    const{name,specs,price,inStock} = req.body
+    const fields = {name,specs,price,inStock}
 try{
     const existingProduct = await productModel.findById(id)
     if(existingProduct){
-        console.log('IN UPDATE AREA')
-        await productModel.updateOne({_id:id},{price})
+        await productModel.updateOne({_id:id},{name,specs,price,inStock})
     }
     return res.send(price)
 }catch(error){
     console.log(error.message)
-   // res.status(404).send(`product with id ${id} not found`)
-    res.sendstatus(404)
+    res.status(404).send(`product with id ${id} not found`)
 }
 
 }
 
 
-const deleteOne = (req,res)=>{}
+const deleteOne = async(req,res)=>{
+    const {id} = req.params
+    try{
+            await productModel.findByIdAndDelete(id)
+            return res.send('Deleted')
+    }catch(error){
+        res.status(404).send(`Product with id ${id} not found`)
+    }
+   
+
+}
+
 
 module.exports = {
     findAll,
