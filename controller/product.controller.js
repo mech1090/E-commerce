@@ -1,5 +1,5 @@
 const productModel = require('../models/Product.model')
-const {validateProduct} = require('../validator/product.validator')
+const {validateProduct,validateupdatedProduct} = require('../validator/product.validator')
 const serviceProduct = require('../services/product.service')
 
 const findAll = async(req,res)=>{
@@ -33,9 +33,10 @@ const update= async(req,res)=>{
     const{id} = req.params
     const{name,specs,price,inStock} = req.body
     const fields = {name,specs,price,inStock}
+    const validatedFields = validateupdatedProduct(fields)
 try{
-    const updatedProduct = await serviceProduct(id,fields)
-    return res.send(updatedProduct)
+    const product = await serviceProduct.updateService(id,validatedFields)
+    return res.send(product)
 }catch(error){
     console.log(error.message)
     res.status(404).send(`product with id ${id} not found`)

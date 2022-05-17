@@ -7,7 +7,7 @@ const create = async fields=>{
 }
 
 const updateService = async (id,fields)=>{
-    return productModel.findByIdAndUpdate({_id:id},{name,specs,price,inStock})
+    return productModel.findByIdAndUpdate({_id:id},fields)
 }
 
 module.exports = {create,updateService}
