@@ -25,7 +25,6 @@ const createOne = async(req,res)=>{
         res.status(400).send(error.details[0].message)
     }
     const newProduct = await serviceProduct.create(value)
-    console.log(newProduct)
     res.send(newProduct)
 
 }
@@ -35,11 +34,8 @@ const update= async(req,res)=>{
     const{name,specs,price,inStock} = req.body
     const fields = {name,specs,price,inStock}
 try{
-    const existingProduct = await productModel.findById(id)
-    if(existingProduct){
-        await productModel.updateOne({_id:id},{name,specs,price,inStock})
-    }
-    return res.send(price)
+    const updatedProduct = await serviceProduct(id,fields)
+    return res.send(updatedProduct)
 }catch(error){
     console.log(error.message)
     res.status(404).send(`product with id ${id} not found`)

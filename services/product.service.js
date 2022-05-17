@@ -6,4 +6,8 @@ const create = async fields=>{
     return newProduct
 }
 
-module.exports = {create}
+const updateService = async (id,fields)=>{
+    return productModel.findByIdAndUpdate({_id:id},{name,specs,price,inStock})
+}
+
+module.exports = {create,updateService}

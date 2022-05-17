@@ -9,10 +9,19 @@ const validateProduct = fields=>{
 
 
     })
-
     const {error,value} = productValidateSchema.validate(fields)
-
     return {error,value}
 }
+const validateupdatedProduct = fields=>{
+    const productValidateSchema = Joi.object({
+        name:Joi.string().min(3).max(120),
+        specs:Joi.string().max(120),
+        price:Joi.number(),
+        inStock:Joi.boolean()
 
-module.exports = {validateProduct}
+
+    })
+    const {error,value} = productValidateSchema.validate(fields)
+    return {error,value}
+}
+module.exports = {validateProduct,validateupdatedProduct}
