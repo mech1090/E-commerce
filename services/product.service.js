@@ -10,4 +10,12 @@ const updateService = async (id,fields)=>{
     return productModel.findByIdAndUpdate({_id:id},fields)
 }
 
-module.exports = {create,updateService}
+const deleteProduct = async (id) =>{
+    return productModel.findByIdAndDelete(id)
+}
+
+const findOne = async (id)=>{return productModel.findById(id)}
+const findAll = async()=>{return productModel.find()}
+    
+
+module.exports = {create,updateService,deleteProduct,findOne,findAll}

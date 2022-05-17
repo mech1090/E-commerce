@@ -3,13 +3,18 @@ const {validateProduct,validateupdatedProduct} = require('../validator/product.v
 const serviceProduct = require('../services/product.service')
 
 const findAll = async(req,res)=>{
-    productList = await productModel.find({})
-    res.send(productList)
+    try{
+        const products = await serviceProduct.findAll()
+        return res.send(products)
+    }catch(error){
+        return res.status(404).send('Bad error')
+    }
 }
 const findOne = async (req,res)=>{
     const {id} = req.params
     try{
-        const product = await productModel.findById(id)
+        const product = await serviceProduct.findOne(id)
+
         return res.send(product)
     }catch(error){
         res.status(404).send(`product with id ${id} not found `)
@@ -48,10 +53,13 @@ try{
 const deleteOne = async(req,res)=>{
     const {id} = req.params
     try{
-            await productModel.findByIdAndDelete(id)
-            return res.send('Deleted')
+            const {badError,product} = await serviceProduct.deleteProduct(id)
+            return res.send(product)
+            if(badError){
+                return res.status(400).send('Can not be deleted')
+            }
     }catch(error){
-        res.status(404).send(`Product with id ${id} not found`)
+        return res.status(404).send(`Product with id ${id} not found`)
     }
    
 
@@ -66,17 +74,3 @@ module.exports = {
     deleteOne
 }
 
-/*
-const createOne = async(req,res)=>{
-    const{name,specs,price,inStock} = req.body
-    const fields = {name,specs,price,inStock}
-    const {error,value} = validateProduct(fields)
-    if(error){
-        res.status(400).send(error.details[0].message)
-    }
-    const newProduct = productModel(value)
-    await newProduct.save()
-    res.send(newProduct)
-
-}
-*/
