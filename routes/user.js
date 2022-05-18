@@ -1,11 +1,13 @@
 const express = require('express')
 const router = express.Router()
-const productController = require('../controller/product.controller')
-router.get('/',productController.signIn)
-router.post('/',productController.signIn)
-router.get('/',productController.signUp)
-router.post('/',productController.signUp)
+const userController = require('../controller/user.controller')
+
+router.get('/login',userController.getLoginForm)
+router.post('/login',userController.login)
+router.get('/signup',userController.getSignupForm)
+router.post('/signup',userController.signUp)
 
 
 
 module.exports = router
+
