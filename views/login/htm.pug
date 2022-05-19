@@ -1,4 +1,7 @@
 .container.col-6
+    if message
+        h2
+            p.text-danger= message
     h1 login
     form(action ="login",method='POST')
         label.form-label(for = "email-address") Email:*

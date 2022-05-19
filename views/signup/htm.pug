@@ -1,4 +1,6 @@
 .container.col-6
+    if message
+        p.text-danger= message
     h1 Sign up
     form(action ="signup",method='POST')
         label.form-label(for = "email-address") Email:*
