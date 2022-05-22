@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt')
 const config = require('config')
 const User = require('../models/Users')
 const userModel = require('../models/Users')
+const jwt = require('jsonwebtoken')
 
 const getLoginForm = (req,res)=>{
     res.render('login/layout')
@@ -13,7 +14,10 @@ const login = async(req,res)=>{
            user = await User.findOne({email})
            const isuthorized = await bcrypt.compare(password,user.password)
            if(isuthorized){
-               return res.render('login/layout',{message:'Login Successful'})
+               const token = jwt.sign({_id:user._id},'mysecret')
+               console.log(token)
+               return res.header({'x-auth-token':token})
+               .render('login/layout',{message:'Login Successful'})
             }
             return res.render('login/layout',{message:'Email not Found'})
     }catch(error){

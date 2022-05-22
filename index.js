@@ -6,6 +6,7 @@ const productsPage = require('./routes/products')
 const userPage = require('./routes/user')
 const { default: mongoose } = require('mongoose')
 const cookieParser = require('cookie-parser')
+const jwt = require('jsonwebtoken')
 require('./db')
 
 const app = express()
@@ -18,6 +19,7 @@ app.use(express.urlencoded({extended:true}))
 app.use('/products',productsPage)
 app.use('/user',userPage)
 app.use(cookieParser())
+
 
 app.set('view engine','pug')
 app.set('views','./views')
